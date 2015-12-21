@@ -49,11 +49,6 @@ struct desktop {
 
 	struct element *background;
 	struct element *panel;
-
-	struct window *grab_window;
-	struct widget *grab_widget;
-//	enum cursor_type grab_cursor;
-	int grab_cursor;
 };
 
 static void

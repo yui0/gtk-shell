@@ -18,3 +18,20 @@ the [copyright](https://github.com/tiagovignatti/gtk-shell/blob/master/LICENSE) 
 ## More
 
 http://vignatti.wordpress.com/2013/03/05/ui-customization-on-wayland/
+
+## Installation
+
+```
+$ sh autogen.sh
+$ make
+# mv shell/weston-gtk-shell /usr/libexec
+```
+
+Add following lines to weston.ini.
+```
+[core]
+modules=shell-helper.so,xwayland.so
+
+[shell]
+client=/usr/libexec/weston-gtk-shell
+```
