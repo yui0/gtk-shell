@@ -30,8 +30,8 @@
 
 extern char **environ; /* defined by libc */
 
-gchar *filename = "background.jpg";
-gchar *terminal_path = "/home/tiago/git/weston/clients/weston-terminal";
+gchar *filename = "/usr/share/wallpapers/wetterhorn.jpg";
+gchar *terminal_path = "/usr/bin/lxterminal";
 
 struct element {
 	GtkWidget *window;
@@ -49,6 +49,11 @@ struct desktop {
 
 	struct element *background;
 	struct element *panel;
+
+	struct window *grab_window;
+	struct widget *grab_widget;
+//	enum cursor_type grab_cursor;
+	int grab_cursor;
 };
 
 static void
@@ -70,12 +75,14 @@ static void
 desktop_shell_prepare_lock_surface(void *data,
 		struct desktop_shell *desktop_shell)
 {
+printf("desktop_shell_prepare_lock_surface\n");
 }
 
 static void
 desktop_shell_grab_cursor(void *data, struct desktop_shell *desktop_shell,
 		uint32_t cursor)
 {
+printf("desktop_shell_grab_cursor\n");
 }
 
 static const struct desktop_shell_listener listener = {
@@ -197,6 +204,7 @@ background_create(struct desktop *desktop)
 	gdk_wayland_window_set_use_custom_surface(gdk_window);
 
 	background->surface = gdk_wayland_window_get_wl_surface(gdk_window);
+	desktop_shell_set_grab_surface(desktop->shell, background->surface);	// Important!!
 	desktop_shell_set_user_data(desktop->shell, desktop);
 	desktop_shell_set_background(desktop->shell, desktop->output,
 		background->surface);
